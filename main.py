@@ -1,16 +1,38 @@
-# This is a sample Python script.
+from pony.orm import *
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+db = Database()
 
 
-# Press the green button in the gutter to run the script.
+
+credentials = {
+    'username': "admin",
+    'password': "admin",
+    'host': "cockroachdb",
+    'database': "test"
+}
+
+
+class Person(db.Entity):
+    name = Required(str)
+    age = Required(int)
+    cars = Set('Car')
+
+
+class Car(db.Entity):
+    make = Required(str)
+    model = Required(str)
+    owner = Required(Person)
+
+
+def connect_to_db():
+    db.bind(provider='cockroach', user=credentials['username'], password=credentials['password'], host=credentials['host'],
+            database=credentials['database'])
+    db.generate_mapping(create_tables=True)
+    db.set_sql_debug(True)
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    # connect_to_db()
+    print("Hello 2")
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

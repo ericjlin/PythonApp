@@ -6,4 +6,4 @@ Build the Application
 
 Run the Application
 
-``docker run app``
+``docker run -v $PWD:/src app``

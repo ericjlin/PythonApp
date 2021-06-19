@@ -9,5 +9,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Run the application:
+WORKDIR /src
+COPY /files ./files
 COPY main.py .
 CMD ["python", "main.py"]
