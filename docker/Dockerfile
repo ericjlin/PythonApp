@@ -13,3 +13,4 @@ WORKDIR /src
 COPY /files ./files
 COPY main.py .
 CMD ["python", "main.py"]
+#CMD ["/bin/bash"]

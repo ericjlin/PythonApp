@@ -3,11 +3,10 @@ from pony.orm import *
 db = Database()
 
 
-
 credentials = {
     'username': "admin",
     'password': "admin",
-    'host': "cockroachdb",
+    'host': "roach1",
     'database': "test"
 }
 
@@ -32,7 +31,5 @@ def connect_to_db():
 
 
 if __name__ == '__main__':
-    # connect_to_db()
-    print("Hello 2")
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    connect_to_db()
+    # print("Hello 2")
