@@ -6,7 +6,7 @@ credentials = {
     'username': "admin",
     'password': "admin",
     'host': "roach1",
-    'database': "test"
+    'database': "defaultdb"
 }
 
 
