@@ -6,7 +6,7 @@ db = Database()
 credentials = {
     'username': "admin",
     'password': "admin",
-    'host': "roach1",
+    'host': "localhost",
     'database': "test"
 }
 
@@ -24,8 +24,8 @@ class Car(db.Entity):
 
 
 def connect_to_db():
-    db.bind(provider='cockroach', user=credentials['username'], password=credentials['password'], host=credentials['host'],
-            database=credentials['database'])
+    db.bind(provider='cockroach', user=credentials['username'], password=credentials['password'], host="localhost",
+            database=credentials['database'], sslmode='disable', port=26257)
     db.generate_mapping(create_tables=True)
     db.set_sql_debug(True)
 
