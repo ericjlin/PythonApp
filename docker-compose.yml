@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-#    build: Dockerfile
+    build: Dockerfile
     image: app
     depends_on:
       - roach1
@@ -9,6 +9,8 @@ services:
       cockroachdb_net:
         aliases:
           - app1
+    volumes:
+      - $PWD:/src
 
 
   roach1:
