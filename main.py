@@ -21,15 +21,15 @@ class Car(db.Entity):
     model = Required(str)
     owner = Required(Person)
 
-
 def connect_to_db():
     print(credentials['host'])
     db.bind(provider='cockroach', user=credentials['username'], password=credentials['password'],
             host=credentials['host'], database=credentials['database'], sslmode='disable', port=26257)
     try:
         db.generate_mapping(create_tables=True)
-        db.set_sql_debug(True)
-    except:
+        sql_debug(True)
+    except Exception as err:
+        print(err)
         print('didnt work')
 
 @db_session
@@ -44,7 +44,15 @@ def create_entities():
 
     print('created data in db')
 
+@db_session
+def query_example():
+    query = select(p for p in Person 
+            if p.age > 20)
+    for q in query:
+        print(q.name)
+
 
 if __name__ == '__main__':
     connect_to_db()
     create_entities()
+    query_example()
