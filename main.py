@@ -2,13 +2,11 @@ from pony.orm import *
 
 db = Database()
 
-
-
 credentials = {
     'username': "admin",
     'password': "admin",
-    'host': "cockroachdb",
-    'database': "test"
+    'host': "roach1",
+    'database': "defaultdb"
 }
 
 
@@ -25,14 +23,28 @@ class Car(db.Entity):
 
 
 def connect_to_db():
-    db.bind(provider='cockroach', user=credentials['username'], password=credentials['password'], host=credentials['host'],
-            database=credentials['database'])
-    db.generate_mapping(create_tables=True)
-    db.set_sql_debug(True)
+    print(credentials['host'])
+    db.bind(provider='cockroach', user=credentials['username'], password=credentials['password'],
+            host=credentials['host'], database=credentials['database'], sslmode='disable', port=26257)
+    try:
+        db.generate_mapping(create_tables=True)
+        db.set_sql_debug(True)
+    except:
+        print('didnt work')
+
+@db_session
+def create_entities():
+    p1 = Person(name='John', age=20)
+    p2 = Person(name='Mary', age=22)
+    p3 = Person(name='Bob', age=30)
+    c1 = Car(make='Toyota', model='Prius', owner=p2)
+    c2 = Car(make='Ford', model='Explorer', owner=p3)
+    # there is no need to call commit() here -
+    # Pony does it automatically on leaving the db_session scope
+
+    print('created data in db')
 
 
 if __name__ == '__main__':
-    # connect_to_db()
-    print("Hello 2")
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    connect_to_db()
+    create_entities()

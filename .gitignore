@@ -1,6 +1,9 @@
 # Jet Brains
 .idea/
 
+# SQL
+/cockroach-data
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

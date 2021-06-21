@@ -1,0 +1,46 @@
+version: '3'
+services:
+  app:
+    build: Dockerfile
+    image: app
+    depends_on:
+      - roach1
+    networks:
+      cockroachdb_net:
+        aliases:
+          - app1
+    volumes:
+      - $PWD:/src
+
+
+  roach1:
+    container_name: roach1
+    image: cockroachdb/cockroach:latest
+    volumes:
+      - ../cockroach-data/roach1:/cockroach/cockroach-data
+    command: start-single-node --insecure
+
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+      - "5432:5432"
+    networks:
+      cockroachdb_net:
+        aliases:
+          - roach1
+
+#  roach2:
+#    container_name: roach2
+#    image: cockroachdb/cockroach:latest
+#    volumes:
+#      - ../cockroach-data/roach2:/cockroach/cockroach-data
+#    command: start --insecure --join=roach1,roach2
+#    networks:
+#      cockroachdb_net:
+#        aliases:
+#          - roach2
+
+networks:
+  cockroachdb_net:
+    driver: bridge
+
